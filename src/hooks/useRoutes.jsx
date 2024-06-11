@@ -21,7 +21,7 @@ const useRoutes = (isAuth) => {
         <section style={{ display: "flex" }}>
             <NavBar />
 
-            <main>
+            <main style={{ width: "100%" }}>
                 <Routes>
                     <Route path="/" element={<PageContainer> <CompaniesPage /></PageContainer>} />
                     <Route path="/transactions" element={<PageContainer>20px</PageContainer>} />
