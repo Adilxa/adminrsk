@@ -10,6 +10,7 @@ function FilteringCompanies() {
     const { search } = useLocation();
     const navigate = useNavigate();
     const [companies, setCompanies] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [openByStatus, setOpenByStatus] = useState(false);
     const [openByRegistration, setOpenByRegistration] = useState(false);
@@ -35,6 +36,7 @@ function FilteringCompanies() {
     }, [search]);
 
     const fetchData = async () => {
+        setLoading(true);
         try {
             setError(null); // Reset error state before fetching data
             let res;
@@ -64,6 +66,8 @@ function FilteringCompanies() {
         } catch (error) {
             setCompanies([]);
             setError('Error fetching data: ' + error.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -187,7 +191,7 @@ function FilteringCompanies() {
                 </header>
                 {error ? <p>{error}</p> : null}
             </main>
-            <CompaniestableList companiesArray={companies} />
+            <CompaniestableList companiesArray={companies} loading={loading} />
         </>
     );
 }
