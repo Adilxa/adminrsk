@@ -18,6 +18,7 @@ function FilteringCompanies() {
     const [selectedRegStatus, setSelectedRegStatus] = useState('');
     const [id, setId] = useState('');
 
+
     const dropdownStatusRef = useRef(null);
     const buttonStatusRef = useRef(null);
     const dropdownRegRef = useRef(null);

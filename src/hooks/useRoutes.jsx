@@ -4,6 +4,7 @@ import NotFound from "../pages/NotFound";
 import NavBar from "../components/NavBar";
 import PageContainer from './../components/PageContainer/index';
 import CompaniesPage from './../pages/CompaniesPage/index';
+import TransactionsPage from "../pages/TransactionsPage";
 
 
 const useRoutes = (isAuth) => {
@@ -24,7 +25,7 @@ const useRoutes = (isAuth) => {
             <main style={{ width: "100%" }}>
                 <Routes>
                     <Route path="/" element={<PageContainer> <CompaniesPage /></PageContainer>} />
-                    <Route path="/transactions" element={<PageContainer>20px</PageContainer>} />
+                    <Route path="/transactions" element={<PageContainer><TransactionsPage /></PageContainer>} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </main>

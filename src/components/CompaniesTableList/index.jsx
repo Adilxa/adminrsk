@@ -15,12 +15,10 @@ function CompaniestableList({ companiesArray, loading, error }) {
                         <th>Registration Status Name</th>
                     </tr>
                 </thead>
-
                 {loading ? (
                     <div colSpan="5" className={style.loadingWrapper}></div>
                 ) : (
                     <tbody>
-
                         {companiesArray.map((el) => (
                             <tr key={el.id}>
                                 <td>{el.id}</td>
