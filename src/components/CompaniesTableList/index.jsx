@@ -1,7 +1,7 @@
 import React from 'react';
 import style from "./companies.module.scss";
 
-function CompaniestableList({ companiesArray, loading }) {
+function CompaniestableList({ companiesArray, loading, error }) {
 
     return (
         <main className={style.wrapper}>
@@ -15,19 +15,13 @@ function CompaniestableList({ companiesArray, loading }) {
                         <th>Registration Status Name</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {loading ? (
-                        Array.from({ length: 10 }).map((_, index) => (
-                            <tr key={index} className={style.skeletonRow}>
-                                <td className={style.skeletonCell}></td>
-                                <td className={style.skeletonCell}></td>
-                                <td className={style.skeletonCell}></td>
-                                <td className={style.skeletonCell}></td>
-                                <td className={style.skeletonCell}></td>
-                            </tr>
-                        ))
-                    ) : (
-                        companiesArray.map((el) => (
+
+                {loading ? (
+                    <div colSpan="5" className={style.loadingWrapper}></div>
+                ) : (
+                    <tbody>
+
+                        {companiesArray.map((el) => (
                             <tr key={el.id}>
                                 <td>{el.id}</td>
                                 <td>{el.inn}</td>
@@ -35,11 +29,17 @@ function CompaniestableList({ companiesArray, loading }) {
                                 <td>{el.status.statusName}</td>
                                 <td>{el.statusRegistration.statusName}</td>
                             </tr>
-                        ))
-                    )}
-                </tbody>
+                        ))}
+                    </tbody>
+
+                )}
+
+                {error && (
+                    <div colSpan="5" className={style.errorWrapper}>No Data Yet by this criteria</div>
+                )}
+
             </table>
-        </main>
+        </main >
     );
 }
 

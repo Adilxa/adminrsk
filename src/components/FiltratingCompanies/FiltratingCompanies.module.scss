@@ -21,7 +21,6 @@
       font-weight: 600;
       color: white;
       position: relative;
-
       img {
         width: 20px;
       }
@@ -46,6 +45,7 @@
       animation: fadeIn 0.2s ease-in-out;
       position: absolute;
       background-color: white;
+      z-index: 1;
     }
 
     .activeLink {

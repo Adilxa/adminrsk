@@ -1,8 +1,17 @@
+.table tbody::-webkit-scrollbar {
+  display: none;
+}
+
+.table tbody {
+  scrollbar-width: none;
+}
+
 .wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
+  position: relative;
 }
 
 .table {
@@ -33,14 +42,22 @@
   background-color: #ddd;
 }
 
-.skeletonRow {
-  background-color: #f0f0f0;
+.loadingWrapper {
   animation: pulse 1.5s infinite;
+  width: 100%;
+  min-height: 30vh;
+  margin-top: 10px;
 }
 
-.skeletonCell {
-  height: 20px;
-  background-color: #e0e0e0;
+.errorWrapper {
+  width: 100%;
+  min-height: 30vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ddd;
+  font-size: 2rem;
+  font-weight: 600;
 }
 
 @keyframes pulse {
@@ -53,4 +70,17 @@
   100% {
     background-color: #f0f0f0;
   }
+}
+
+table tbody {
+  display: block;
+  max-height: 600px;
+  overflow-y: scroll;
+}
+
+table thead,
+table tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useRef } from 'react';
+import React, { useEffect, useMemo, useState, useRef, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import $api from '../../api/http';
 import { filteringByRegStatus, filteringCriterias } from '../../constants/filterCompanies.data';
@@ -14,7 +14,6 @@ function FilteringCompanies() {
     const [error, setError] = useState(null);
     const [openByStatus, setOpenByStatus] = useState(false);
     const [openByRegistration, setOpenByRegistration] = useState(false);
-
     const [selectedStatus, setSelectedStatus] = useState('');
     const [selectedRegStatus, setSelectedRegStatus] = useState('');
     const [id, setId] = useState('');
@@ -26,31 +25,23 @@ function FilteringCompanies() {
 
     useEffect(() => {
         const searchParams = new URLSearchParams(search);
-        const statusName = searchParams.get("statusName");
-        const statusRegName = searchParams.get("statusRegistrationName");
-        const companyId = searchParams.get("id");
-
-        setSelectedStatus(statusName || '');
-        setSelectedRegStatus(statusRegName || '');
-        setId(companyId || '');
+        setSelectedStatus(searchParams.get("statusName") || '');
+        setSelectedRegStatus(searchParams.get("statusRegistrationName") || '');
+        setId(searchParams.get("id") || '');
     }, [search]);
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         setLoading(true);
+        setError(null);
+
         try {
-            setError(null); // Reset error state before fetching data
             let res;
             if (id) {
                 res = await $api.get(`companies/${id}`);
-                if (res.data) {
-                    setCompanies([res.data]);
-                } else {
-                    setCompanies([]);
-                    setError(`No company found with ID: ${id}`);
-                }
+                setCompanies(res.data ? [res.data] : []);
+                if (!res.data) setError(`No company found with ID: ${id}`);
             } else if (selectedStatus && selectedRegStatus) {
-                const queryString = `filter?statusName=${selectedStatus}&statusRegistrationName=${selectedRegStatus}`;
-                res = await $api.get(`companies/${queryString}`);
+                res = await $api.get(`companies/filter?statusName=${selectedStatus}&statusRegistrationName=${selectedRegStatus}`);
                 setCompanies(res.data);
             } else if (selectedStatus) {
                 res = await $api.get(`companies/filterByStatus?statusName=${selectedStatus}`);
@@ -62,42 +53,33 @@ function FilteringCompanies() {
                 res = await $api.get(`companies`);
                 setCompanies(res.data);
             }
-            console.log('Fetched data:', res.data);
         } catch (error) {
             setCompanies([]);
             setError('Error fetching data: ' + error.message);
         } finally {
             setLoading(false);
         }
-    };
-
-    useEffect(() => {
-        fetchData();
     }, [selectedStatus, selectedRegStatus, id]);
 
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownStatusRef.current && !dropdownStatusRef.current.contains(event.target) && event.target !== buttonStatusRef.current) {
-                setOpenByStatus(false);
-            }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
+        fetchData();
+    }, [fetchData]);
+
+    const handleClickOutside = useCallback((event) => {
+        if (dropdownStatusRef.current && !dropdownStatusRef.current.contains(event.target) && event.target !== buttonStatusRef.current) {
+            setOpenByStatus(false);
+        }
+        if (dropdownRegRef.current && !dropdownRegRef.current.contains(event.target) && event.target !== buttonRegRef.current) {
+            setOpenByRegistration(false);
+        }
     }, []);
 
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownRegRef.current && !dropdownRegRef.current.contains(event.target) && event.target !== buttonRegRef.current) {
-                setOpenByRegistration(false);
-            }
-        };
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [dropdownRegRef]);
+    }, [handleClickOutside]);
 
     const handleStatusChange = (status) => {
         const newStatus = selectedStatus === status ? '' : status;
@@ -132,31 +114,17 @@ function FilteringCompanies() {
         navigate({ search: '' });
     };
 
-    const renderTopSideLinks = useMemo(() => (
-        filteringCriterias.map((el) => (
+    const renderLinks = (items, selectedItem, handleClick) => (
+        items.map((el) => (
             <a
                 key={el.criteria}
-                className={selectedStatus === el.criteria ? style.activeLink : style.nonActiveLink}
-                onClick={() => handleStatusChange(el.criteria)}
+                className={selectedItem === el.criteria ? style.activeLink : style.nonActiveLink}
+                onClick={() => handleClick(el.criteria)}
             >
                 {el.criteria}
             </a>
         ))
-    ), [selectedStatus]);
-
-    const renderBottomSideLinks = useMemo(() => (
-        filteringByRegStatus.map((el) => (
-            <a
-                key={el.criteria}
-                className={selectedRegStatus === el.criteria ? style.activeLink : style.nonActiveLink}
-                onClick={() => handleRegStatusChange(el.criteria)}
-            >
-                {el.criteria}
-            </a>
-        ))
-    ), [selectedRegStatus]);
-
-    console.log('Rendered companies:', companies);
+    );
 
     return (
         <>
@@ -170,7 +138,7 @@ function FilteringCompanies() {
                         </div>
                         {openByStatus && (
                             <div ref={dropdownStatusRef} className={style.linkContainer}>
-                                {renderTopSideLinks}
+                                {renderLinks(filteringCriterias, selectedStatus, handleStatusChange)}
                             </div>
                         )}
                     </div>
@@ -181,17 +149,15 @@ function FilteringCompanies() {
                         </div>
                         {openByRegistration && (
                             <div ref={dropdownRegRef} className={style.linkContainer}>
-                                {renderBottomSideLinks}
+                                {renderLinks(filteringByRegStatus, selectedRegStatus, handleRegStatusChange)}
                             </div>
                         )}
                     </div>
-
                     <input className={style.filtratingId} type="text" value={id} onChange={handleIdChange} placeholder="Filter by ID" />
                     <button className={style.clearButton} onClick={handleClearFilters}>Clear Filters</button>
                 </header>
-                {error ? <p>{error}</p> : null}
             </main>
-            <CompaniestableList companiesArray={companies} loading={loading} />
+            <CompaniestableList companiesArray={companies} loading={loading} error={error} />
         </>
     );
 }

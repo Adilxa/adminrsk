@@ -11,7 +11,6 @@ function CompaniesPage() {
         fetchCompanies()
     }, [])
 
-    if (isLoading) return <Preloader />
     return (
         <FilteringCompanies />
     )
