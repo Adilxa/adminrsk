@@ -130,7 +130,6 @@ function FilteringCompanies() {
     return (
         <>
             <main className={style.wrapper}>
-                <h1>Filtered Companies</h1>
                 <header>
                     <div>
                         <div className={style.filtering_byStatus} onClick={() => setOpenByStatus(!openByStatus)} ref={buttonStatusRef}>

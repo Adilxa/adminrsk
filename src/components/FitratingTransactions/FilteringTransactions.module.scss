@@ -1,6 +1,7 @@
 .wrapper {
   display: flex;
   margin-bottom: 10px;
-
-  gap: 10px;
+  .gap {
+    width: 10px;
+  }
 }
