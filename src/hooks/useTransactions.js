@@ -6,18 +6,14 @@ const useTransactions = () => {
   const [isLoading, setLoading] = useState(false);
 
   const fetchTransactionsData = async () => {
-    setLoading(true);
     try {
       const res = await $api.get("/transactions");
       setTransactions(res.data);
     } catch (error) {
       console.error("Failed to fetch transactions", error);
     } finally {
-      setLoading(false);
     }
   };
-
-  // http://localhost:8000/transactions/filterByDateTime?startDate=2024-06-10
 
   const fetchByTimeCriteria = async (startDate, endDate) => {
     if (startDate !== null && endDate !== null) {
@@ -37,7 +33,7 @@ const useTransactions = () => {
     } else if (startDate !== null) {
       try {
         const res = await $api.get(
-          `/transactions/filterByDateTime?startDate=${startDate}`
+          `/transactions/filterByDateTimeRange?startDate=${startDate}`
         );
         setTransactions(res.data);
       } catch (e) {
@@ -46,11 +42,24 @@ const useTransactions = () => {
     }
   };
 
+  const fetchByStatus = async (status) => {
+    const params = new URLSearchParams();
+    try {
+      if (status) params.append("status", status);
+      console.log(params.toString());
+      const res = await $api.get(`/transactions/filter?status=${status}`);
+      setTransactions(res.data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return {
     isLoading,
     transactions,
     fetchTransactionsData,
     fetchByTimeCriteria,
+    fetchByStatus,
   };
 };
 
