@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import style from "./Combobox.module.scss";
 import arrowBottom from "../../assets/svgs/bottomArrow.svg";
 
-function ComboBox({ options, setStatus }) {
+function ComboBox({ options, setStatus, setStartDate, setEndDate }) {
     const [openByStatus, setOpenByStatus] = useState(false);
     const dropdownStatusRef = useRef(null);
     const buttonStatusRef = useRef(null);
@@ -24,10 +24,24 @@ function ComboBox({ options, setStatus }) {
     const params = new URLSearchParams(window.location.search);
 
     const onSetparams = (param, status) => {
-        params.set(param, status);
-        setStatus(status);
-        window.history.replaceState(null, "", `?${params.toString()}`);
-        setOpenByStatus(false)
+
+        if (searchStatusParam == status) {
+            params.delete("status")
+            setStatus("")
+            window.history.replaceState(null, "", `?${params.toString()}`);
+            setStartDate(null)
+            setEndDate(null)
+        } else {
+            params.set(param, status);
+            setStatus(status);
+            params.delete("startDate")
+            params.delete("endDate")
+            setOpenByStatus(false)
+            setStartDate(null)
+            setEndDate(null)
+            window.history.replaceState(null, "", `?${params.toString()}`);
+
+        }
     }
 
     const searchStatusParam = params.get("status")

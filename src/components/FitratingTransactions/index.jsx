@@ -24,8 +24,10 @@ function FilteringTransactions({ fetchByTimeCriteria, fetchByStatus, fetchTransa
 
         if (dateType === 'startDate' && date) {
             params.set('startDate', formatDate(date));
+            params.delete("status")
         } else if (dateType === 'endDate' && date && params.has('startDate')) {
             params.set('endDate', formatDate(date));
+            params.delete("status")
         } else if (dateType === 'startDate' && !date) {
             params.delete('startDate');
         } else if (dateType === 'endDate' && !date) {
@@ -43,6 +45,7 @@ function FilteringTransactions({ fetchByTimeCriteria, fetchByStatus, fetchTransa
     const fetch = async () => {
         if (startParams) {
             await fetchByTimeCriteria(startParams, endParams);
+
         } else if (startParams && endParams) {
             await fetchByTimeCriteria(startParams, endParams);
         }
@@ -53,7 +56,6 @@ function FilteringTransactions({ fetchByTimeCriteria, fetchByStatus, fetchTransa
         }
     };
 
-    console.log(startDate, " ----- -- -");
 
     useEffect(() => {
         fetch();
@@ -65,7 +67,7 @@ function FilteringTransactions({ fetchByTimeCriteria, fetchByStatus, fetchTransa
             <div className={style.gap}></div>
             <DatePickerComponent value={endDate} setValue={setEndDate} dateType="endDate" setParams={setParams} />
             <div className={style.gap}></div>
-            <ComboBox options={statusCombobox} setStatus={setStatus} />
+            <ComboBox options={statusCombobox} setStatus={setStatus} setStartDate={setStartDate} setEndDate={setEndDate} />
         </section>
     );
 }
