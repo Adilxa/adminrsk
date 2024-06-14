@@ -7,7 +7,7 @@ import FilteringTransactions from '../../components/FitratingTransactions';
 
 function TransactionsPage() {
 
-    const { transactions, isLoading, fetchTransactionsData, fetchByTimeCriteria, fetchByStatus } = useTransactions()
+    const { transactions, isLoading, fetchTransactionsData, fetchByTimeCriteria, fetchByStatus, fetchByType } = useTransactions()
 
     useEffect(() => {
         fetchTransactionsData()
@@ -16,7 +16,7 @@ function TransactionsPage() {
     if (isLoading) return <Preloader />
     return (
         <section className={style.wrapper}>
-            <FilteringTransactions fetchTransactionsData={fetchTransactionsData} fetchByTimeCriteria={fetchByTimeCriteria} fetchByStatus={fetchByStatus} />
+            <FilteringTransactions fetchTransactionsData={fetchTransactionsData} fetchByTimeCriteria={fetchByTimeCriteria} fetchByStatus={fetchByStatus} fetchByType={fetchByType} />
             <TransactionsTableList transactionsArray={transactions} />
         </section>
     )

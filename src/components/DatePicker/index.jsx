@@ -20,7 +20,6 @@ function DatePickerComponent({ value, setValue, dateType, setParams }) {
             selected={value ? new Date(value) : null}
             showIcon
             onChange={(date) => handleDateChange(date)}
-            timeInputLabel="Choose the time:"
             dateFormat="MM/dd/yyyy"
         />
     );

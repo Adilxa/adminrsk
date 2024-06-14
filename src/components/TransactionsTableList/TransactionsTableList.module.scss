@@ -39,3 +39,14 @@ table tbody tr {
   width: 100%;
   table-layout: fixed;
 }
+
+.nonDataWrapper {
+  min-height: 30vh;
+  background-color: #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  h5 {
+    font-size: 2rem;
+  }
+}

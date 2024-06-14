@@ -54,12 +54,25 @@ const useTransactions = () => {
     }
   };
 
+  const fetchByType = async (status) => {
+    const params = new URLSearchParams();
+    try {
+      if (status) params.append("type", status);
+      console.log(params.toString());
+      const res = await $api.get(`/transactions/filter?type=${status}`);
+      setTransactions(res.data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return {
     isLoading,
     transactions,
     fetchTransactionsData,
     fetchByTimeCriteria,
     fetchByStatus,
+    fetchByType,
   };
 };
 

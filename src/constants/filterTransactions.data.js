@@ -12,3 +12,22 @@ export const statusCombobox = [
     status: 3,
   },
 ];
+
+export const typeTransaction = [
+  {
+    name: "Transaction",
+    status: 1,
+  },
+  {
+    name: "Cashing Out",
+    status: 2,
+  },
+  {
+    name: "Payments",
+    status: 3,
+  },
+  {
+    name: "Deposit",
+    status: 4,
+  },
+];
