@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import style from "./Combobox.module.scss";
 import arrowBottom from "../../assets/svgs/bottomArrow.svg";
 
-function ComboBox({ options, setStatus, setStartDate, setEndDate, name, setType, statusType }) {
+function ComboBox({ options, setStatus, setStartDate, setEndDate, name, setType, statusType, transactions }) {
     const [openByStatus, setOpenByStatus] = useState(false);
     const dropdownStatusRef = useRef(null);
     const buttonStatusRef = useRef(null);
@@ -87,8 +87,8 @@ function ComboBox({ options, setStatus, setStartDate, setEndDate, name, setType,
     return (
         <section>
             <div className={style.filtering_byStatus} onClick={() => setOpenByStatus(!openByStatus)} ref={buttonStatusRef}>
-                {name}
-                <img className={openByStatus ? style.activeArrow : style.nonActiveArrow} src={arrowBottom} alt="arrow bottom" />
+                {name}  {statusType == "type" && searchTypeParam && `${"/"} ${transactions.length}`}
+                < img className={openByStatus ? style.activeArrow : style.nonActiveArrow} src={arrowBottom} alt="arrow bottom" />
             </div>
             {openByStatus && (
                 <div ref={dropdownStatusRef} className={style.linkContainer}>

@@ -4,7 +4,7 @@ import DatePickerComponent from '../DatePicker';
 import ComboBox from '../ComboBox';
 import { statusCombobox, typeTransaction } from '../../constants/filterTransactions.data';
 
-function FilteringTransactions({ fetchByTimeCriteria, fetchByStatus, fetchTransactionsData, fetchByType }) {
+function FilteringTransactions({ fetchByTimeCriteria, fetchByStatus, fetchTransactionsData, fetchByType, transactions }) {
     const params = new URLSearchParams(window.location.search);
 
     const [startDate, setStartDate] = useState(params.get("startDate"));
@@ -72,7 +72,7 @@ function FilteringTransactions({ fetchByTimeCriteria, fetchByStatus, fetchTransa
             <div className={style.gap}></div>
             <ComboBox name={"By status"} statusType="status" options={statusCombobox} setStatus={setStatus} setStartDate={setStartDate} setEndDate={setEndDate} />
             <div className={style.gap}></div>
-            <ComboBox name={"By type"} statusType="type" options={typeTransaction} setType={setType} setStatus={setStatus} setStartDate={setStartDate} setEndDate={setEndDate} />
+            <ComboBox transactions={transactions} name={"By type"} statusType="type" options={typeTransaction} setType={setType} setStatus={setStatus} setStartDate={setStartDate} setEndDate={setEndDate} />
         </section>
     );
 }

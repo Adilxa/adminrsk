@@ -16,7 +16,7 @@ function TransactionsPage() {
     if (isLoading) return <Preloader />
     return (
         <section className={style.wrapper}>
-            <FilteringTransactions fetchTransactionsData={fetchTransactionsData} fetchByTimeCriteria={fetchByTimeCriteria} fetchByStatus={fetchByStatus} fetchByType={fetchByType} />
+            <FilteringTransactions fetchTransactionsData={fetchTransactionsData} fetchByTimeCriteria={fetchByTimeCriteria} fetchByStatus={fetchByStatus} fetchByType={fetchByType} transactions={transactions} />
             <TransactionsTableList transactionsArray={transactions} />
         </section>
     )
