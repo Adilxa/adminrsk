@@ -40,4 +40,4 @@ function TransactionsTableList({ transactionsArray }) {
     )
 }
 
-export default TransactionsTableList
+export default TransactionsTableList;
