@@ -6,14 +6,39 @@ function UsersPage() {
     const [name, setName] = useState("");
     const [pass, setPass] = useState("");
     const [usersList, setUsersList] = useState([]);
+    const [errors, setErrors] = useState({ name: "", pass: "" });
+
+    const validateForm = () => {
+        let isValid = true;
+        const newErrors = { name: "", pass: "" };
+
+        if (name.trim() === "") {
+            newErrors.name = "Username is required";
+            isValid = false;
+        }
+
+        if (pass.length < 6) {
+            newErrors.pass = "Password must be at least 6 characters long";
+            isValid = false;
+        }
+
+        setErrors(newErrors);
+        return isValid;
+    };
 
     const handleCreate = async (e) => {
         e.preventDefault();
+
+        if (!validateForm()) {
+            return;
+        }
+
         await $api.post("/users", {
             username: name, pass, roleId: 1, statusId: 1
         });
         setName("");
         setPass("");
+        setErrors({ name: "", pass: "" });
         fetchUsers();
     };
 
@@ -23,9 +48,9 @@ function UsersPage() {
     };
 
     const handleDelete = async (id) => {
-        const res = await $api.delete("/users/" + id);
-        setUsersList(res.data);
-    }
+        await $api.delete("/users/" + id);
+        setUsersList(usersList.filter((el) => el.id !== id));
+    };
 
     useEffect(() => {
         fetchUsers();
@@ -42,9 +67,13 @@ function UsersPage() {
                             type="text"
                             id="name"
                             value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            onChange={(e) => {
+                                setName(e.target.value);
+                                setErrors("")
+                            }}
                             placeholder="Enter your name"
                         />
+                        {errors.name && <p className={styles.error}>{errors.name}</p>}
                     </div>
 
                     <div className={styles.inputGroup}>
@@ -56,11 +85,13 @@ function UsersPage() {
                             onChange={(e) => setPass(e.target.value)}
                             placeholder="Enter your password"
                         />
+                        {errors.pass && <p className={styles.error}>{errors.pass}</p>}
                     </div>
 
                     <button type="submit" className={styles.submitButton}>Create</button>
                 </form>
             </div>
+
             <h1>Exist Users</h1>
             <div className={styles.tableWrapper}>
                 {usersList.length > 0 ? (
@@ -69,6 +100,7 @@ function UsersPage() {
                             <tr>
                                 <th>ID</th>
                                 <th>Username</th>
+                                <th>Delete user</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -76,9 +108,12 @@ function UsersPage() {
                                 <tr key={el.id}>
                                     <td>{el.id}</td>
                                     <td>{el.username}</td>
-                                    <td><button
-                                        onClick={() => handleDelete(el.id)}
-                                    >Delete</button></td>
+                                    <td style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
+                                        <button
+                                            className={styles.deleteButton}
+                                            onClick={() => handleDelete(el.id)}
+                                        >Delete</button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>

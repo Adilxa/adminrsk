@@ -2,17 +2,34 @@ import React, { useState } from 'react';
 import style from "./AuthPage.module.scss";
 import Logo from "../../assets/logoishker.svg";
 import useAuth from '../../hooks/useAuth';
+import $api from '../../api/http';
 
 function AuthPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [res, setRes] = useState("")
 
-    const { onSignIn } = useAuth();
+    // const { onSignIn } = useAuth();
+
+    const onSignIn = async (e) => {
+        e.preventDefault()
+        const res = await $api.post("/users/login", {
+            username: email,
+            pass: password
+        })
+
+        if (res.data === "Login successful!") {
+            localStorage.setItem("isAuth", true);
+            window.location.reload()
+        } else {
+            setRes(res.data)
+        }
+    }
 
     return (
         <div className={style.container}>
             <div className={style.signInSection}>
-                <form onSubmit={() => onSignIn(email, password)} className={style.signInForm}>
+                <form onSubmit={(e) => onSignIn(e)} className={style.signInForm}>
                     <h2>Привет Админ!</h2>
                     <input
                         onChange={(e) => setEmail(e.target.value)}
@@ -31,6 +48,7 @@ function AuthPage() {
                     <button type="submit">
                         <p>Войти</p>
                     </button>
+                    {res}
                 </form>
             </div>
             <div className={style.welcomeSection}>

@@ -7,6 +7,7 @@ import CompaniesPage from './../pages/CompaniesPage/index';
 import TransactionsPage from "../pages/TransactionsPage";
 import AccountsPage from "../pages/AccountsPage";
 import UsersPage from "../pages/UsersPage";
+import UserActivityPage from "../pages/UserActivityPage";
 
 
 const useRoutes = (isAuth) => {
@@ -30,6 +31,7 @@ const useRoutes = (isAuth) => {
                     <Route path="/transactions" element={<PageContainer><TransactionsPage /></PageContainer>} />
                     <Route path="/accounts" element={<PageContainer><AccountsPage /></PageContainer>} />
                     <Route path="/users" element={<PageContainer><UsersPage /></PageContainer>} />
+                    <Route path="/useractivity" element={<PageContainer><UserActivityPage /></PageContainer>} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </main>
