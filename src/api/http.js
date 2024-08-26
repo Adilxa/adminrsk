@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_URL = "http://192.168.168.75:8000";
+export const API_URL = "https://j1xlz783-8000.euw.devtunnels.ms/";
 
 export const $api = axios.create({
   baseURL: API_URL,

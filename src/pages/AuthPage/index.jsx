@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import style from "./AuthPage.module.scss";
 import Logo from "../../assets/logoishker.svg";
-import useAuth from '../../hooks/useAuth';
 import $api from '../../api/http';
 import { useNavigate } from 'react-router';
 
@@ -19,17 +18,18 @@ function AuthPage() {
         e.preventDefault()
         const res = await $api.post("/users/login", {
             username: email,
-            pass: password
+            pass: password,
         })
 
-        if (res.data === "Login successful!") {
+        if (res.data !== false) {
             localStorage.setItem("isAuth", true);
             localStorage.setItem("user", email)
+            localStorage.setItem("chatId", res.data.chatId)
             navigate("/")
 
             window.location.reload()
         } else {
-            setRes(res.data)
+            setRes("Wrong name or pass")
         }
     }
 

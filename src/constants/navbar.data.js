@@ -27,4 +27,9 @@ export const navbarData = [
     title: "Installed history",
     link: "/installedhistory",
   },
+  {
+    title: "Connect to Telegram 💡",
+    link: "https://t.me/ishker24statbot",
+    isLink: true,
+  },
 ];

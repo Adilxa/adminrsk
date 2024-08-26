@@ -10,6 +10,8 @@ function NavBar() {
     const location = useLocation()
     const navigate = useNavigate();
 
+    const chatId = localStorage.getItem("chatId")
+
     const logout = () => {
         localStorage.setItem("isAuth", false)
         localStorage.setItem("user", "")
@@ -19,7 +21,10 @@ function NavBar() {
 
     const renderTabs = useMemo(() =>
         navbarData.map((el) => (
-            <Link key={el.title} to={el.link} className={location.pathname == el.link ? style.activeLink : style.nonActiveLink}>{el.title}</Link>
+            el.isLink ? <a href={el.link} className={style.activeLink} style={{ background: "#229ED9" }} target='_blank' rel='norefferer'>{chatId ? "Telegram Connected ⚡" : el.title}</a> :
+                <Link key={el.title} to={el.link} className={location.pathname == el.link ? style.activeLink : style.nonActiveLink}>
+                    {el.title}
+                </Link>
         ))
         , [location])
 
