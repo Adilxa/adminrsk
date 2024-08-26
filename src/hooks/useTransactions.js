@@ -24,6 +24,7 @@ const useTransactions = () => {
         const res = await $api.get(
           `/transactions/filterByDateTimeRange?${params.toString()}`
         );
+        console.log(res.data);
         setTransactions(res.data);
       } catch (error) {
         console.error("Failed to fetch transactions by time criteria", error);
@@ -42,7 +43,7 @@ const useTransactions = () => {
     }
   };
 
-  const fetchByStatus = async (status) => {
+  const fetchByStatus = async status => {
     const params = new URLSearchParams();
     try {
       if (status) params.append("status", status);
@@ -54,7 +55,7 @@ const useTransactions = () => {
     }
   };
 
-  const fetchByType = async (status) => {
+  const fetchByType = async status => {
     const params = new URLSearchParams();
     try {
       if (status) params.append("type", status);

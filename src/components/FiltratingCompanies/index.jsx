@@ -5,6 +5,7 @@ import { filteringByRegStatus, filteringCriterias } from '../../constants/filter
 import style from "./FiltratingCompanies.module.scss";
 import arrowBottom from "../../assets/svgs/bottomArrow.svg";
 import CompaniestableList from '../CompaniesTableList';
+import ReportButton from '../ReportButton';
 
 function FilteringCompanies() {
     const { search } = useLocation();
@@ -130,6 +131,7 @@ function FilteringCompanies() {
     return (
         <>
             <main className={style.wrapper}>
+                <ReportButton data={companies} />
                 <header>
                     <div>
                         <div className={style.filtering_byStatus} onClick={() => setOpenByStatus(!openByStatus)} ref={buttonStatusRef}>

@@ -56,43 +56,49 @@ function UsersPage() {
         fetchUsers();
     }, []);
 
+    const userName = localStorage.getItem("user")
+
+    console.log(userName);
     return (
         <div className={styles.container}>
-            <div className={styles.formWrapper}>
-                <h2 className={styles.title}>Create User</h2>
-                <form className={styles.form} onSubmit={handleCreate}>
-                    <div className={styles.inputGroup}>
-                        <label htmlFor="name">Name</label>
-                        <input
-                            type="text"
-                            id="name"
-                            value={name}
-                            onChange={(e) => {
-                                setName(e.target.value);
-                                setErrors("")
-                            }}
-                            placeholder="Enter your name"
-                        />
-                        {errors.name && <p className={styles.error}>{errors.name}</p>}
+            {
+                (userName === "Sultan" || userName === "adil") && (
+                    <div className={styles.formWrapper}>
+                        <h2 className={styles.title}>Create User</h2>
+                        <form className={styles.form} onSubmit={handleCreate}>
+                            <div className={styles.inputGroup}>
+                                <label htmlFor="name">Name</label>
+                                <input
+                                    type="text"
+                                    id="name"
+                                    value={name}
+                                    onChange={(e) => {
+                                        setName(e.target.value);
+                                        setErrors("")
+                                    }}
+                                    placeholder="Enter your name"
+                                />
+                                {errors.name && <p className={styles.error}>{errors.name}</p>}
+                            </div>
+
+                            <div className={styles.inputGroup}>
+                                <label htmlFor="password">Password</label>
+                                <input
+                                    type="password"
+                                    id="password"
+                                    value={pass}
+                                    onChange={(e) => setPass(e.target.value)}
+                                    placeholder="Enter your password"
+                                />
+                                {errors.pass && <p className={styles.error}>{errors.pass}</p>}
+                            </div>
+
+                            <button type="submit" className={styles.submitButton}>Create</button>
+                        </form>
                     </div>
+                )
+            }
 
-                    <div className={styles.inputGroup}>
-                        <label htmlFor="password">Password</label>
-                        <input
-                            type="password"
-                            id="password"
-                            value={pass}
-                            onChange={(e) => setPass(e.target.value)}
-                            placeholder="Enter your password"
-                        />
-                        {errors.pass && <p className={styles.error}>{errors.pass}</p>}
-                    </div>
-
-                    <button type="submit" className={styles.submitButton}>Create</button>
-                </form>
-            </div>
-
-            <h1>Exist Users</h1>
             <div className={styles.tableWrapper}>
                 {usersList.length > 0 ? (
                     <table className={styles.table}>

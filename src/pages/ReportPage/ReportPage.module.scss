@@ -1,0 +1,64 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+th,
+td {
+  padding: 1rem;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+  background-color: #ddd;
+  transition: all 0.4s;
+}
+
+.nonDataWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  background-color: #eee;
+  border-radius: 8px;
+}
+
+.nonDataWrapper h5 {
+  font-size: 1.6rem;
+  color: #999;
+}
+
+.report {
+  display: flex;
+  gap: 15px; // Increased gap for better separation
+  flex-wrap: wrap; // Ensures better responsiveness on smaller screens
+
+  > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px; // More padding for a balanced look
+    border-radius: 12px; // Slightly larger for smoother edges
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Softer shadow for a cleaner look
+    background-color: #fff; // Adding a background for contrast
+    color: #534e9f;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+
+    &:hover {
+      background-color: #534e9f;
+      color: #fff; // White text on hover for a more refined look
+      transform: translateY(-3px); // Subtle hover elevation effect
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); // Enhanced hover shadow for depth
+    }
+  }
+}

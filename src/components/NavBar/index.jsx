@@ -9,8 +9,10 @@ function NavBar() {
 
     const location = useLocation()
     const navigate = useNavigate();
+
     const logout = () => {
         localStorage.setItem("isAuth", false)
+        localStorage.setItem("user", "")
         window.location.reload()
         navigate("/")
     }

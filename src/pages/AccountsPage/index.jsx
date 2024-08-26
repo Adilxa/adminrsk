@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import AccountsFiltering from '../../components/AccountsFiltering'
 import { useAccounts } from '../../hooks/useAccounts';
-import Preloader from '../../components/Preloader';
 import AccountsTableList from '../../components/AccountsTableList';
+import ReportButton from '../../components/ReportButton';
 function AccountsPage() {
 
     const params = new URLSearchParams(window.location.search);
@@ -26,6 +26,11 @@ function AccountsPage() {
 
     return (
         <section>
+            <div>
+                <ReportButton data={accounts} />
+            </div>
+            <br />
+            <br />
             <AccountsFiltering fetchByStatus={fetchByStatus} fetchAccounts={fetchAccounts} />
             <AccountsTableList accounts={accounts} isFilteringLoading={isFilteringLoading} />
         </section>

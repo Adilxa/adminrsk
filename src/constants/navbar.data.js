@@ -23,4 +23,8 @@ export const navbarData = [
     title: "User Activity",
     link: "/useractivity",
   },
+  {
+    title: "Installed history",
+    link: "/installedhistory",
+  },
 ];

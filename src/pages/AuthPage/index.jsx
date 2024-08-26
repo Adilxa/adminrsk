@@ -3,6 +3,7 @@ import style from "./AuthPage.module.scss";
 import Logo from "../../assets/logoishker.svg";
 import useAuth from '../../hooks/useAuth';
 import $api from '../../api/http';
+import { useNavigate } from 'react-router';
 
 function AuthPage() {
     const [email, setEmail] = useState("");
@@ -10,6 +11,9 @@ function AuthPage() {
     const [res, setRes] = useState("")
 
     // const { onSignIn } = useAuth();
+
+    const navigate = useNavigate();
+
 
     const onSignIn = async (e) => {
         e.preventDefault()
@@ -20,6 +24,9 @@ function AuthPage() {
 
         if (res.data === "Login successful!") {
             localStorage.setItem("isAuth", true);
+            localStorage.setItem("user", email)
+            navigate("/")
+
             window.location.reload()
         } else {
             setRes(res.data)

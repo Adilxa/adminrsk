@@ -13,6 +13,7 @@ function AccountsTableList({ accounts, isFilteringLoading }) {
                     <th>Currency</th>
                     <th>Status</th>
                     <th>Bank</th>
+                    <th>Fillial</th>
                 </tr>
             </thead>
             {
@@ -27,6 +28,7 @@ function AccountsTableList({ accounts, isFilteringLoading }) {
                                     <td>{el.currency.symbol}</td>
                                     <td>{el.status.statusName}</td>
                                     <td>{el.bank.nameofbanks}</td>
+                                    <td>{el.filial.address}</td>
                                 </tr>
                             )
                         }

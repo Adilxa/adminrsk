@@ -33,7 +33,7 @@ function CompaniestableList({ companiesArray, loading, error }) {
                 )}
 
                 {error && (
-                    <div colSpan="5" className={style.errorWrapper}>No Data Yet by this criteria</div>
+                    <div colSpan="5" className={style.errorWrapper}>No Data Yet</div>
                 )}
 
             </table>
