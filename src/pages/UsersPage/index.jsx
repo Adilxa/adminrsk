@@ -58,7 +58,6 @@ function UsersPage() {
 
     const userName = localStorage.getItem("user")
 
-    console.log(userName);
     return (
         <div className={styles.container}>
             {
